@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - expense_db
+
+  expense_db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - expense_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=expenseDB
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  expense_db:
